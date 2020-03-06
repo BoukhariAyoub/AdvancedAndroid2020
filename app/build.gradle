@@ -1,0 +1,117 @@
+['com.android.application',
+ 'kotlin-android',
+ 'kotlin-android-extensions',
+ 'kotlin-kapt',
+ //'de.mannodermaus.android-junit5'
+].each
+        {
+            apply plugin: it
+        }
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        applicationId "com.boukharist.modernappdevelopment"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
+
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix '.latest'
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude '.readme'
+        exclude 'NOTICE'
+        exclude 'templates/release-notes.vm'
+        exclude 'META-INF/pom.xml'
+        exclude 'META-INF/pom.properties'
+        exclude 'META-INF/maven/org.apache.commons/commons-lang3/pom.xml'
+        exclude 'META-INF/maven/org.apache.commons/commons-lang3/pom.properties'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/app_debug.kotlin_module'
+        exclude 'META-INF/app_delivery.kotlin_module'
+        exclude 'META-INF/app_debug.kotlin_module'
+        exclude 'META-INF/atomicfu.kotlin_module'
+        exclude 'META-INF/ktor-client-serialization.kotlin_module'
+        exclude 'META-INF/ktor-http.kotlin_module'
+        exclude 'META-INF/kotlinx-io.kotlin_module'
+        exclude 'META-INF/ktor-utils.kotlin_module'
+        exclude 'META-INF/kotlinx-coroutines-io.kotlin_module'
+        exclude 'META-INF/kotlinx-coroutines-core.kotlin_module'
+        exclude 'META-INF/kotlinx-serialization-runtime.kotlin_module'
+        exclude 'META-INF/ktor-http-cio.kotlin_module'
+        exclude 'META-INF/ktor-client-json.kotlin_module'
+        exclude 'META-INF/ktor-client-logging.kotlin_module'
+        exclude 'META-INF/ktor-client-core.kotlin_module'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':presentation')
+    implementation project(':domain')
+    implementation project(':data')
+    implementation dep.kotlin_jdk
+    implementation dep.appcompat
+    implementation dep.constraintlayout
+    implementation dep.core_ktx
+    implementation dep.koin
+    implementation dep.koin_scope
+    implementation dep.koin_viewmodel
+    implementation dep.coroutines
+    implementation dep.lifecycle_extensions
+    implementation dep.lifecycle_livedata
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    kapt dep.data_binding_compiler
+
+    testImplementation test_dep.junit_jupiter_api
+    testRuntimeOnly test_dep.junit_jupiter_engine
+    testImplementation test_dep.junit_jupiter_params
+
+    androidTestImplementation test_dep.android_runner
+    androidTestImplementation test_dep.junit_jupiter_api
+    androidTestImplementation test_dep.junit_x
+    androidTestImplementation test_dep.espresso_core
+    androidTestImplementation test_dep.junit_android_core
+    androidTestRuntimeOnly test_dep.junit_android_runner
+}

@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+        debug.java.srcDirs += "src/debug/kotlin"
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
+        exclude 'META-INF/DEPENDENCIES'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':domain')
+    implementation dep.kotlin_jdk
+    implementation dep.appcompat
+    implementation dep.core_ktx
+    implementation dep.koin
+
+    implementation dep.room_runtime
+    kapt dep.room_compiler
+    implementation dep.room_ktx
+    implementation dep.gson
+    implementation dep.retrofit
+    implementation dep.converter_gson
+    implementation("com.squareup.okhttp3:logging-interceptor:4.3.1")
+
+    testImplementation test_dep.junit_jupiter_api
+    testRuntimeOnly test_dep.junit_jupiter_engine
+    testImplementation test_dep.junit_jupiter_params
+
+    testImplementation test_dep.mockito
+    testImplementation test_dep.mockito_kotlin
+    testImplementation test_dep.coroutines_test
+
+    androidTestImplementation test_dep.android_runner
+    androidTestImplementation test_dep.junit_jupiter_api
+    androidTestImplementation test_dep.junit_x
+    androidTestImplementation test_dep.junit_android_core
+    androidTestRuntimeOnly test_dep.junit_android_runner
+}
