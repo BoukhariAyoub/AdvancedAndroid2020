@@ -1,10 +1,11 @@
 package com.boukharist.domain.model
 
-import java.time.LocalDate
+import java.util.*
+
 
 data class User(
     val gender: Gender,
-    val birthDate: LocalDate,
+    val birthDate: Date,
     val height: Float,
     val weight: Float,
     val activityType: ActivityType,
@@ -23,4 +24,4 @@ enum class Goal {
     LOOSE, MAINTAIN, GAIN
 }
 
-data class Bmr(val bmr: String, val tdee: String)
+data class HealthInfo(val bmr: Double, val tdee: Double, val caloriesIntake: Double)
