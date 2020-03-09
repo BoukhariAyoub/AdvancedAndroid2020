@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="parentViewModel"
+            type="com.boukharist.modernandroiddevelopment.screens.registration.UserRegistrationViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.boukharist.modernandroiddevelopment.screens.registration.UserRegistrationSecondaryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/button_next"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/activityText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activity Type"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/activity_type_group"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityText">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:checked="@{viewModel.activityTypeIndex == 0}"
+                    android:onClick="@{()->viewModel.onActivityTypeChanged(0)}"
+                    android:text="LOW" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:checked="@{viewModel.activityTypeIndex == 1}"
+                    android:onClick="@{() -> viewModel.onActivityTypeChanged(1)}"
+                    android:text="MEDIUM" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:checked="@{viewModel.activityTypeIndex == 2}"
+                    android:onClick="@{() ->viewModel.onActivityTypeChanged(2)}"
+                    android:text="HIGH" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/goalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="Weight Goal"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+                app:layout_constraintTop_toBottomOf="@+id/activity_type_group" />
+
+            <RadioGroup
+                android:id="@+id/goal_group"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/goalText">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:onClick="@{() ->viewModel.onGoalChanged(0)}"
+                    android:checked="@{viewModel.goalIndex == 0}"
+                    android:text="Loose" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:onClick="@{() ->viewModel.onGoalChanged(1)}"
+                    android:checked="@{viewModel.goalIndex == 1}"
+                    android:text="Maitain" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:onClick="@{() ->viewModel.onGoalChanged(2)}"
+                    android:checked="@{viewModel.goalIndex == 2}"
+                    android:text="Gain" />
+
+            </RadioGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> parentViewModel.navigateToHealthInfo()}"
+            android:text="@string/validate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
