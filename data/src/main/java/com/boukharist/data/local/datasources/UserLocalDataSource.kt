@@ -3,6 +3,7 @@ package com.boukharist.data.local.datasources
 import androidx.room.*
 import com.boukharist.data.local.models.UserDto
 import com.boukharist.domain.model.User
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserLocalDataSource {
@@ -20,6 +21,6 @@ interface UserLocalDataSource {
     fun deleteAll()
 
     @Query("SELECT * FROM users limit 1")
-    fun findCurrentUser(): UserDto?
+    fun findCurrentUser(): Flow<UserDto?>
 
 }

@@ -10,6 +10,9 @@ import com.boukharist.domain.model.User
 import com.boukharist.domain.model.UserNotFoundException
 import com.boukharist.domain.model.UserRegistrationException
 import com.boukharist.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 class UserRepositoryImpl(
@@ -31,12 +34,13 @@ class UserRepositoryImpl(
         }
     }
 
-    override fun getUser(): CallResult<User, UserNotFoundException> {
-        val userDto = localDataSource.findCurrentUser()
-        return if (userDto != null) {
-            CallResult.success(userDto.let(userDtoToDomainMapper))
-        } else {
-            CallResult.failure(UserNotFoundException)
+    override fun getUser(): Flow<CallResult<User, UserNotFoundException>> = flow {
+        localDataSource.findCurrentUser().map { userDto ->
+            if (userDto != null) {
+                CallResult.success(userDto.let(userDtoToDomainMapper))
+            } else {
+                CallResult.failure(UserNotFoundException)
+            }
         }
     }
 }
