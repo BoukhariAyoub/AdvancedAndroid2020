@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">Modern Android Development</string>
-    <string name="title_activity_user_regitrastion">userRegitrastionActivity</string>
-    <string name="next">Next</string>
-    <string name="validate">Validate</string>
-    <string name="title_activity_health_info">HealthInfo</string>
 </resources>

@@ -1,8 +1,11 @@
-package com.boukharist.modernandroiddevelopment.screens.registration
+package com.boukharist.presentation.modernandroiddevelopment.screens.registration
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.boukharist.presentation.modernandroiddevelopment.screens.registration.basicinfo.UserRegistrationBasicInfoFragment
+import com.boukharist.presentation.modernandroiddevelopment.screens.registration.secondaryInfo.UserRegistrationSecondaryInfoFragment
+
 class ViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     override fun getItemCount(): Int {

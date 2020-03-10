@@ -28,7 +28,7 @@ class UserRepositoryImpl(
             val userRequest = user.let(userRequestMapper)
             remoteDataSource.registerUser(userRequest)
             localDataSource.setLoggedInUser(user.let(userDtoToDataMapper))
-            return CallResult.success(Unit)
+            CallResult.success(Unit)
         } catch (ex: IOException) {
             CallResult.failure(UserRegistrationException(ex.localizedMessage ?: "Uknown"))
         }

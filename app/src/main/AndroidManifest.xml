@@ -5,17 +5,16 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:name="com.boukharist.AndroidModernDevelopmentApplication"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight">
         <activity
-            android:name=".screens.healthinfo.HealthInfoActivity"
-            android:label="@string/title_activity_health_info"/>
+            android:name="com.boukharist.presentation.modernandroiddevelopment.screens.healthinfo.HealthInfoActivity"/>
 
         <activity
-            android:name=".screens.registration.UserRegistrationActivity"
-            android:label="@string/title_activity_user_regitrastion">
+            android:name="com.boukharist.presentation.modernandroiddevelopment.screens.registration.UserRegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

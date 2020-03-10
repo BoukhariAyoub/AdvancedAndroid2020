@@ -1,8 +1,8 @@
-package com.boukharist.modernandroiddevelopment.screens.registration
+package com.boukharist.presentation.modernandroiddevelopment.screens.registration
 
 import android.content.Context
 import android.content.Intent
-import com.boukharist.modernandroiddevelopment.screens.healthinfo.HealthInfoActivity
+import com.boukharist.presentation.modernandroiddevelopment.screens.healthinfo.HealthInfoActivity
 
 interface RegistrationRouter {
     fun navigateToHealthInfo()

@@ -8,6 +8,8 @@ import com.boukharist.data.remote.mapper.BmrResponseMapper
 import com.boukharist.data.remote.models.BmrRequest
 import com.boukharist.domain.model.*
 import com.boukharist.domain.repository.BmrRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class BmrRepositoryImpl(
     private val remoteDataSource: BmrRemoteDataSource,
@@ -17,10 +19,10 @@ class BmrRepositoryImpl(
     private val healthInfoMapper: BmrResponseMapper
 ) : BmrRepository {
 
-    override fun computeBmr(user: User): CallResult<HealthInfo, BmrException> {
-        return try {
+    override fun computeBmr(user: User): Flow<CallResult<HealthInfo, BmrException>> = flow {
+        try {
             val bmrRequest = user.let(bmrRequestMapper)
-            return localResponse(bmrRequest) ?: remoteResponse(bmrRequest)
+            localResponse(bmrRequest) ?: remoteResponse(bmrRequest)
         } catch (throwable: Throwable) {
             val bmrException = BmrComputationException(throwable.localizedMessage ?: "")
             CallResult.failure(bmrException)

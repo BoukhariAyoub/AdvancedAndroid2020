@@ -4,13 +4,13 @@
 
     <data>
 
-        <variable
-            name="parentViewModel"
-            type="com.boukharist.modernandroiddevelopment.screens.registration.UserRegistrationViewModel" />
+        <import type="com.boukharist.domain.model.Goal" />
+
+        <import type="com.boukharist.domain.model.ActivityType" />
 
         <variable
             name="viewModel"
-            type="com.boukharist.modernandroiddevelopment.screens.registration.UserRegistrationSecondaryViewModel" />
+            type="com.boukharist.presentation.modernandroiddevelopment.screens.registration.secondaryInfo.UserRegistrationSecondaryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,8 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:checked="@{viewModel.activityTypeIndex == 0}"
-                    android:onClick="@{()->viewModel.onActivityTypeChanged(0)}"
+                    android:checked="@{viewModel.activityTypeIndex == ActivityType.LOW.ordinal()}"
+                    android:onClick="@{()->viewModel.onActivityTypeChanged(ActivityType.LOW)}"
                     android:text="LOW" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -55,8 +55,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:checked="@{viewModel.activityTypeIndex == 1}"
-                    android:onClick="@{() -> viewModel.onActivityTypeChanged(1)}"
+                    android:checked="@{viewModel.activityTypeIndex == ActivityType.MEDIUM.ordinal()}"
+                    android:onClick="@{() -> viewModel.onActivityTypeChanged(ActivityType.MEDIUM)}"
                     android:text="MEDIUM" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -64,8 +64,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:checked="@{viewModel.activityTypeIndex == 2}"
-                    android:onClick="@{() ->viewModel.onActivityTypeChanged(2)}"
+                    android:checked="@{viewModel.activityTypeIndex == ActivityType.HIGH.ordinal()}"
+                    android:onClick="@{() ->viewModel.onActivityTypeChanged(ActivityType.HIGH)}"
                     android:text="HIGH" />
 
             </RadioGroup>
@@ -93,8 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:onClick="@{() ->viewModel.onGoalChanged(0)}"
-                    android:checked="@{viewModel.goalIndex == 0}"
+                    android:checked="@{viewModel.goalIndex == Goal.LOOSE.ordinal()}"
+                    android:onClick="@{() ->viewModel.onGoalChanged(Goal.LOOSE)}"
                     android:text="Loose" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -102,8 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:onClick="@{() ->viewModel.onGoalChanged(1)}"
-                    android:checked="@{viewModel.goalIndex == 1}"
+                    android:checked="@{viewModel.goalIndex == Goal.MAINTAIN.ordinal()}"
+                    android:onClick="@{() ->viewModel.onGoalChanged(Goal.MAINTAIN)}"
                     android:text="Maitain" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -111,8 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:onClick="@{() ->viewModel.onGoalChanged(2)}"
-                    android:checked="@{viewModel.goalIndex == 2}"
+                    android:checked="@{viewModel.goalIndex == Goal.GAIN.ordinal()}"
+                    android:onClick="@{() ->viewModel.onGoalChanged(Goal.GAIN)}"
                     android:text="Gain" />
 
             </RadioGroup>
@@ -123,7 +123,6 @@
             android:id="@+id/button_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> parentViewModel.navigateToHealthInfo()}"
             android:text="@string/validate"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

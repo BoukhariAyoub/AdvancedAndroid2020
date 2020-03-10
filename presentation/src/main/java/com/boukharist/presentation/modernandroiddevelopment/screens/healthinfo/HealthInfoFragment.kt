@@ -1,15 +1,13 @@
-package com.boukharist.modernandroiddevelopment.screens.healthinfo
+package com.boukharist.presentation.modernandroiddevelopment.screens.healthinfo
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
-import com.boukharist.modernandroiddevelopment.R
-import com.boukharist.modernandroiddevelopment.databinding.HealthInfoViewBinding
+import androidx.fragment.app.Fragment
+import com.boukharist.presentation.R
+import com.boukharist.presentation.databinding.HealthInfoViewBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

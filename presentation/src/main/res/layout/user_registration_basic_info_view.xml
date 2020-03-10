@@ -3,14 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="parentViewModel"
-            type="com.boukharist.modernandroiddevelopment.screens.registration.UserRegistrationViewModel" />
-
         <variable
             name="viewModel"
-            type="com.boukharist.modernandroiddevelopment.screens.registration.UserRegistrationBasicInfoViewModel" />
+            type="com.boukharist.presentation.modernandroiddevelopment.screens.registration.basicinfo.UserRegistrationBasicInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +98,6 @@
             android:id="@+id/button_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> parentViewModel.navigateToSecondaryRegistration()}"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

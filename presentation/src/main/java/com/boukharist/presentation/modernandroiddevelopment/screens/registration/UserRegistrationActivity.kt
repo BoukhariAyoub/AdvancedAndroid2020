@@ -1,4 +1,4 @@
-package com.boukharist.modernandroiddevelopment.screens.registration
+package com.boukharist.presentation.modernandroiddevelopment.screens.registration
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,17 +6,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.boukharist.modernandroiddevelopment.R
-import com.boukharist.modernandroiddevelopment.databinding.UserRegistrationActivityBinding
-import com.boukharist.modernandroiddevelopment.databinding.UserRegistrationBasicInfoViewBinding
+import com.boukharist.presentation.R
+import com.boukharist.presentation.databinding.UserRegistrationActivityBinding
+import com.boukharist.presentation.modernandroiddevelopment.screens.registration.secondaryInfo.UserRegistrationSecondaryViewModel
 import kotlinx.android.synthetic.main.user_registration_activity.*
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 
 class UserRegistrationActivity : AppCompatActivity() {
 
-    lateinit var viewModel: UserRegistrationViewModel
+    private val scope: Scope by inject(named<UserRegistrationActivity>())
+    private val viewModel: UserRegistrationViewModel by scope.viewModel(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, UserRegistrationViewModelFactory(this)).get(UserRegistrationViewModel::class.java)
         val binding = DataBindingUtil.setContentView<UserRegistrationActivityBinding>(this, R.layout.user_registration_activity)
         binding.apply {
             lifecycleOwner = this@UserRegistrationActivity
@@ -56,6 +61,11 @@ class UserRegistrationActivity : AppCompatActivity() {
             // Otherwise, select the previous step.
             viewPager.currentItem = viewPager.currentItem - 1
         }
+    }
+
+    override fun onDestroy() {
+        scope.close()
+        super.onDestroy()
     }
 
 }
