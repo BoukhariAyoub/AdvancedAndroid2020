@@ -6,21 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.boukharist.mvarchi.info.InfoViewModel
-import com.boukharist.mvarchi.info.InfoViewModelFactory
 import com.boukharist.presentation.R
 import com.boukharist.presentation.databinding.InfoViewBinding
+import com.boukharist.screens.MainActivity
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.scope.currentScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class InfoFragment : Fragment() {
 
-    private lateinit var viewModel: InfoViewModel
+    private val scope = this.getKoin().getOrCreateScope(named<MainActivity>().toString(), named<MainActivity>())
+
+    private val viewModel: InfoViewModel by scope.viewModel(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this, InfoViewModelFactory()).get(InfoViewModel::class.java)
         return DataBindingUtil.inflate<InfoViewBinding>(inflater, R.layout.info_view, container, false)
             .also {
                 it.viewModel = viewModel
@@ -29,8 +32,4 @@ class InfoFragment : Fragment() {
             .root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchData()
-    }
 }

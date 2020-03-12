@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asFlow
 
 interface InMemoryUserDataSource {
     fun getUserFormMemory(): Flow<InMemoryUser>
+    suspend fun setUser(inMemoryUser: InMemoryUser)
 }
 
 
@@ -17,5 +18,9 @@ class InMemoryUserDataSourceImpl : InMemoryUserDataSource {
 
     override fun getUserFormMemory(): Flow<InMemoryUser> {
         return userChannel.asFlow()
+    }
+
+    override suspend fun setUser(inMemoryUser: InMemoryUser) {
+        userChannel.offer(inMemoryUser)
     }
 }

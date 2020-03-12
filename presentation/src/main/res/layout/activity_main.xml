@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/infoFragment"
-        android:name="com.boukharist.mvarchi.info.InfoFragment"
+        android:name="com.boukharist.screens.info.InfoFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -25,8 +24,9 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/formFragment"
-        android:name="com.boukharist.mvarchi.form.FormFragment"
+        android:name="com.boukharist.screens.form.FormFragment"
         android:layout_width="match_parent"
+        android:background="@color/color_error"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

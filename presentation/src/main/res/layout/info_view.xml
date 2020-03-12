@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.boukharist.mvarchi.info.InfoViewModel" />
+            type="com.boukharist.screens.info.InfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="@{viewModel.userLiveData.fullName}"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
-            android:textColor="?colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -38,6 +37,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+
+        <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{viewModel.errorLiveDate}"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ageTextView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

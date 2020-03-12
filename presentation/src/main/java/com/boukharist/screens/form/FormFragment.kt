@@ -4,49 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.boukharist.presentation.R
-import kotlinx.android.synthetic.main.form_view.*
+import com.boukharist.presentation.databinding.FormViewBinding
+import com.boukharist.screens.MainActivity
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class FormFragment : Fragment() {
 
-    private lateinit var viewModel: FormViewModel
+    private val scope = this.getKoin().getOrCreateScope(named<MainActivity>().toString(), named<MainActivity>())
+    private val viewModel: FormViewModel by scope.viewModel(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.form_view, container, false)
+        return DataBindingUtil.inflate<FormViewBinding>(inflater, R.layout.form_view, container, false)
+            .also {
+                it.viewModel = viewModel
+                it.lifecycleOwner = viewLifecycleOwner
+            }
+            .root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FormViewModel::class.java)
-        initObservers()
-        setListeners()
-    }
-
-    override fun onDestroyView() {
-        val firstName = firstNameText.editText!!.text.toString()
-        val lastName = lastNameText.editText!!.text.toString()
-        val birthDate = birthDateText.editText!!.text.toString()
-        viewModel.onFormTextChanged(firstName, lastName, birthDate)
-        super.onDestroyView()
-    }
-
-    private fun initObservers() {
-        viewModel.formLiveData.observe(viewLifecycleOwner, Observer {
-            firstNameText.editText!!.setText(it.firstName)
-            lastNameText.editText!!.setText(it.lastName)
-            birthDateText.editText!!.setText(it.birthDate)
-        })
-    }
-
-    private fun setListeners() {
-        validateButton.setOnClickListener {
-            val firstName = firstNameText.editText!!.text.toString()
-            val lastName = lastNameText.editText!!.text.toString()
-            val birthDate = birthDateText.editText!!.text.toString()
-            viewModel.onValidateClicked(firstName, lastName, birthDate)
-        }
-    }
 }

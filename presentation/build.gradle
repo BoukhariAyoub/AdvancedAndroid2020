@@ -62,6 +62,7 @@ dependencies {
     implementation dep.constraintlayout
     implementation dep.material
     implementation dep.coroutines
+    implementation dep.material
 
     kapt dep.data_binding_compiler
 

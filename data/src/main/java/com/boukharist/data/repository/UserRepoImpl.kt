@@ -18,8 +18,12 @@ class UserRepoImpl(private val inMemoryUserDataSource: InMemoryUserDataSource) :
     override fun getUser(): Flow<CallResult<User, UserException>> {
         return inMemoryUserDataSource.getUserFormMemory()
             .catch { CallResult.failure(UserNotFoundException) }
-            .map { inMemory ->  inMemory.toDomainUser() }
+            .map { inMemory -> inMemory.toDomainUser() }
             .map { CallResult.success(it) }
+    }
+
+    override suspend fun setUser(user: User) {
+        inMemoryUserDataSource.setUser(user.toInMemoryUser())
     }
 
     private fun InMemoryUser.toDomainUser(): User {
@@ -27,6 +31,14 @@ class UserRepoImpl(private val inMemoryUserDataSource: InMemoryUserDataSource) :
             firstName,
             lastName,
             Date(birthDate)
+        )
+    }
+
+    private fun User.toInMemoryUser(): InMemoryUser {
+        return InMemoryUser(
+            firstName,
+            lastName,
+            birthDate.time
         )
     }
 }

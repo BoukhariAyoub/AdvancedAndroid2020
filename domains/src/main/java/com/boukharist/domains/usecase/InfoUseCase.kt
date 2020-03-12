@@ -15,5 +15,4 @@ class InfoUseCaseImpl(private val repository: UserRepo) : InfoUseCase {
     override fun getUser(): Flow<CallResult<User, UserException>> {
        return repository.getUser()
     }
-
 }

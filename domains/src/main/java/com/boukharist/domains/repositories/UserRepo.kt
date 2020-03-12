@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepo {
     fun getUser(): Flow<CallResult<User, UserException>>
+    suspend fun setUser(user: User)
 }
 
