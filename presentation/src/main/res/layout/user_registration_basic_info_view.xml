@@ -95,9 +95,10 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_finish"
+            android:id="@+id/button_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{(v) -> viewModel.onNextClicked()}"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -120,9 +120,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_next"
+            android:id="@+id/button_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.onValidateClicked() }"
             android:text="@string/validate"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

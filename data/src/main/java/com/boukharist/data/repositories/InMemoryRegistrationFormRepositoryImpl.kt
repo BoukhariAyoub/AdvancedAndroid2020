@@ -3,9 +3,9 @@ package com.boukharist.data.repositories
 import com.boukharist.data.memory.datasource.InMemoryRegistrationFormDataSource
 import com.boukharist.data.memory.models.InMemoryUserRegistrationForm
 import com.boukharist.domain.UserRegistrationForm
+import com.boukharist.domain.model.User
 import com.boukharist.domain.repository.InMemoryRegistrationFormRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class InMemoryRegistrationFormRepositoryImpl(private val dataSource: InMemoryRegistrationFormDataSource) : InMemoryRegistrationFormRepository {
 
@@ -13,7 +13,7 @@ class InMemoryRegistrationFormRepositoryImpl(private val dataSource: InMemoryReg
         return dataSource.getRegistrationForm().map { it.toDomain() }
     }
 
-    override fun setRegistrationForm(newForm: UserRegistrationForm) {
+    override suspend fun setRegistrationForm(newForm: UserRegistrationForm) {
         dataSource.setRegistrationForm(newForm.toData())
     }
 
@@ -24,7 +24,9 @@ class InMemoryRegistrationFormRepositoryImpl(private val dataSource: InMemoryReg
             height = height,
             weight = weight,
             activityType = activityTypeIndex,
-            goal = goalIndex
+            goal = goalIndex,
+            currentPage = currentPage,
+            hasUserSubmitted = hasUserSubmitted
         )
     }
 
@@ -35,7 +37,9 @@ class InMemoryRegistrationFormRepositoryImpl(private val dataSource: InMemoryReg
             height = height,
             weight = weight,
             activityTypeIndex = activityType,
-            goalIndex = goal
+            goalIndex = goal,
+            currentPage = currentPage,
+            hasUserSubmitted = hasUserSubmitted
         )
     }
 }

@@ -41,7 +41,7 @@ android {
     }
 
     dataBinding {
-        enabled true
+        enabled = true
     }
 
 }
@@ -62,6 +62,7 @@ dependencies {
     implementation dep.constraintlayout
     implementation dep.material
     implementation dep.coroutines
+
 
     kapt dep.data_binding_compiler
 

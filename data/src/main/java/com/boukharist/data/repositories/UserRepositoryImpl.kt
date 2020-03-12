@@ -1,5 +1,6 @@
 package com.boukharist.data.repositories
 
+import android.util.Log
 import com.boukharist.data.remote.datasources.UserRemoteDataSource
 import com.boukharist.data.local.datasources.UserLocalDataSource
 import com.boukharist.data.local.mapper.UserDtoToDataMapper
@@ -10,9 +11,7 @@ import com.boukharist.domain.model.User
 import com.boukharist.domain.model.UserNotFoundException
 import com.boukharist.domain.model.UserRegistrationException
 import com.boukharist.domain.repository.UserRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import java.io.IOException
 
 class UserRepositoryImpl(
@@ -23,19 +22,25 @@ class UserRepositoryImpl(
     private val userDtoToDomainMapper: UserDtoToDomainMapper
 ) : UserRepository {
 
-    override fun registerUser(user: User): CallResult<Unit, UserRegistrationException> {
+    override suspend fun registerUser(user: User): CallResult<Unit, UserRegistrationException> {
         return try {
+            Log.i("InMemory", "Save user")
             val userRequest = user.let(userRequestMapper)
-            remoteDataSource.registerUser(userRequest)
+            // remoteDataSource.registerUser(userRequest)
             localDataSource.setLoggedInUser(user.let(userDtoToDataMapper))
+            localDataSource.findCurrentUser().take(1).collect { Log.i("InMemory", "usersList : $it") }
             CallResult.success(Unit)
         } catch (ex: IOException) {
             CallResult.failure(UserRegistrationException(ex.localizedMessage ?: "Uknown"))
         }
     }
 
-    override fun getUser(): Flow<CallResult<User, UserNotFoundException>> = flow {
-        localDataSource.findCurrentUser().map { userDto ->
+    override fun getUser(): Flow<CallResult<User, UserNotFoundException>> {
+        Log.i("InMemory", "getUser Called")
+        return localDataSource.findCurrentUser()
+            .map { it.first() }
+            .map { userDto ->
+            Log.i("InMemory", "Got user")
             if (userDto != null) {
                 CallResult.success(userDto.let(userDtoToDomainMapper))
             } else {

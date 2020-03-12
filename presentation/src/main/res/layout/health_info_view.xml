@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.boukharist.presentation.modernandroiddevelopment.screens.registration.UserRegistrationViewModel" />
+            type="com.boukharist.presentation.modernandroiddevelopment.screens.healthinfo.HealthInfoViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -16,9 +16,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="BMR"
+            android:text="@{viewModel.userLiveData.toString()}"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

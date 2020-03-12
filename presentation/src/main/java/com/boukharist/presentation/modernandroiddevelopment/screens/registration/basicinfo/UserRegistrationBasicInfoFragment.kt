@@ -12,6 +12,7 @@ import com.boukharist.presentation.databinding.UserRegistrationBasicInfoViewBind
 import com.boukharist.presentation.modernandroiddevelopment.screens.registration.UserRegistrationActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 
@@ -24,19 +25,15 @@ class UserRegistrationBasicInfoFragment : Fragment() {
     private val viewModel: UserRegistrationBasicInfoViewModel by scope.viewModel(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<UserRegistrationBasicInfoViewBinding>(inflater, R.layout.user_registration_basic_info_view, container, false).apply {
-            this.lifecycleOwner = viewLifecycleOwner
-            this.viewModel = viewModel
-        }.root
+        return DataBindingUtil.inflate<UserRegistrationBasicInfoViewBinding>(inflater, R.layout.user_registration_basic_info_view, container, false)
+            .also {
+                it.lifecycleOwner = viewLifecycleOwner
+                it.viewModel = viewModel
+            }.root
     }
-
 
     override fun onPause() {
-        saveInfo()
+       // viewModel.saveInfo()
         super.onPause()
-    }
-
-    private fun saveInfo() {
-        viewModel.saveInfo()
     }
 }

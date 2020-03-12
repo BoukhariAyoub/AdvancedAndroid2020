@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
-    fun registerUser(user: User): CallResult<Unit, UserRegistrationException>
+    suspend fun registerUser(user: User): CallResult<Unit, UserRegistrationException>
 
     fun getUser(): Flow<CallResult<User, UserNotFoundException>>
 }

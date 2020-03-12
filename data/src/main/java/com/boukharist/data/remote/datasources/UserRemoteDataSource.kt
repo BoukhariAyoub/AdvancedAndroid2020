@@ -6,15 +6,15 @@ import kotlin.random.Random
 
 interface UserRemoteDataSource {
     @Throws(IOException::class)
-    fun registerUser(userRequest: UserRequest)
+   suspend fun registerUser(userRequest: UserRequest)
 }
 
 class UserFakeRemoteDataSourceImpl : UserRemoteDataSource {
-    override fun registerUser(userRequest: UserRequest) {
-        Thread.sleep(1000)
-        val shouldThrowError = Random.nextBoolean()
-        if (shouldThrowError) {
-            throw IOException()
-        }
+    override suspend fun registerUser(userRequest: UserRequest) {
+
+       // val shouldThrowError = Random.nextBoolean()
+     //   if (shouldThrowError) {
+    //        throw IOException()
+     //   }
     }
 }

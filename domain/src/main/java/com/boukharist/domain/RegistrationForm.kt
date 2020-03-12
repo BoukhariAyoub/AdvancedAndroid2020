@@ -11,5 +11,7 @@ data class UserRegistrationForm(
     val height: Float? = null,
     val weight: Float? = null,
     val activityType: ActivityType? = null,
-    val goal: Goal? = null
+    val goal: Goal? = null,
+    val currentPage: Int? = null,
+    val hasUserSubmitted: Boolean = false
 )

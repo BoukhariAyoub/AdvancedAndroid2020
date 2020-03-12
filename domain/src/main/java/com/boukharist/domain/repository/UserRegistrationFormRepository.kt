@@ -12,6 +12,6 @@ interface InMemoryRegistrationFormRepository {
 
     fun getRegistrationForm(): Flow<UserRegistrationForm>
 
-    fun setRegistrationForm(newForm: UserRegistrationForm)
+    suspend fun setRegistrationForm(newForm: UserRegistrationForm)
 }
 

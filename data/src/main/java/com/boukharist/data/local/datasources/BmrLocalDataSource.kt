@@ -12,6 +12,6 @@ interface BmrLocalDataSource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(bmrDto: BmrDto)
 
-    @Query("SELECT * FROM bmr limit 1")
+    @Query("SELECT * FROM bmr where :bmrRequestHash limit 1")
     fun getBmrById(bmrRequestHash: Int): BmrDto?
 }

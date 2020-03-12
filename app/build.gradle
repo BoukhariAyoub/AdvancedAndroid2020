@@ -100,7 +100,9 @@ dependencies {
     implementation dep.koin_scope
     implementation dep.koin_viewmodel
     implementation dep.coroutines
+    implementation dep.room_runtime
 
+    kapt dep.room_compiler
     kapt dep.data_binding_compiler
 
     testImplementation test_dep.junit_jupiter_api

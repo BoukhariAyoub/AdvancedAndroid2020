@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserUseCase {
     fun getBmr(user: User): Flow<CallResult<HealthInfo, BmrException>>
-    fun registerUser(user: User): CallResult<Unit, UserException>
+    suspend fun registerUser(user: User): CallResult<Unit, UserException>
     fun getUser(): Flow<CallResult<User, UserException>>
 }
 
@@ -20,7 +20,7 @@ class UserUseCaseImpl(
         return bmrRepository.computeBmr(user)
     }
 
-    override fun registerUser(user: User) = userRepository.registerUser(user)
+    override suspend fun registerUser(user: User) = userRepository.registerUser(user)
 
     override fun getUser(): Flow<CallResult<User, UserException>> {
         return userRepository.getUser()

@@ -7,19 +7,26 @@ import com.boukharist.domain.UserRegistrationForm
 import com.boukharist.domain.model.ActivityType
 import com.boukharist.domain.model.Goal
 import com.boukharist.domain.usecase.UserRegistrationFormUseCase
+import com.boukharist.domain.usecase.UserUseCase
+import com.boukharist.presentation.modernandroiddevelopment.screens.registration.RegistrationRouter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class UserRegistrationSecondaryViewModel(
-    private val formUseCase: UserRegistrationFormUseCase
+    private val formUseCase: UserRegistrationFormUseCase,
+    private val userUseCase: UserUseCase,
+    private val router: RegistrationRouter
 ) : ViewModel() {
 
     init {
         getFormInfoState()
     }
 
-    val goalIndex = ObservableField<Int>()
-    val activityTypeIndex = ObservableField<Int>()
+    val goalIndex = ObservableField<Int>(1)
+    val activityTypeIndex = ObservableField<Int>(2)
 
     fun onActivityTypeChanged(activityType: ActivityType) {
         val pos = activityType.ordinal
@@ -37,17 +44,23 @@ class UserRegistrationSecondaryViewModel(
 
     private fun getFormInfoState() {
         viewModelScope.launch {
-            formUseCase.getRegistrationForm().collect {
-                it.goal?.let { goal -> onGoalChanged(goal) }
-                it.activityType?.let { activity -> onActivityTypeChanged(activity) }
-            }
+            formUseCase.getRegistrationForm()
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    it.goal?.let { goal -> onGoalChanged(goal) }
+                    it.activityType?.let { activity -> onActivityTypeChanged(activity) }
+                }
         }
     }
 
-    fun saveInfo() {
-        val activityType = activityTypeIndex.get()?.let { ActivityType.values()[it] }
-        val goal = goalIndex.get()?.let { Goal.values()[it] }
-        val secondaryInfoForm = UserRegistrationForm(activityType = activityType, goal = goal)
-        formUseCase.setRegistrationForm(secondaryInfoForm)
+    fun onValidateClicked() {
+        viewModelScope.launch {
+            val activityType = activityTypeIndex.get()?.let { ActivityType.values()[it] }
+            val goal = goalIndex.get()?.let { Goal.values()[it] }
+            val secondaryInfoForm = UserRegistrationForm(activityType = activityType, goal = goal, hasUserSubmitted = true)
+            formUseCase.setRegistrationForm(secondaryInfoForm)
+            router.navigateToHealthInfo()
+        }
     }
+
 }

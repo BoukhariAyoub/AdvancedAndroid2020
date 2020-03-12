@@ -6,21 +6,20 @@ import com.boukharist.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface UserLocalDataSource {
+abstract class UserLocalDataSource {
 
     @Transaction
-    fun setLoggedInUser(user: UserDto) {
+    open suspend fun setLoggedInUser(user: UserDto) {
         deleteAll()
         save(user)
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(user: UserDto)
+    abstract suspend fun save(user: UserDto)
 
     @Query("DELETE FROM users")
-    fun deleteAll()
+    abstract fun deleteAll()
 
-    @Query("SELECT * FROM users limit 1")
-    fun findCurrentUser(): Flow<UserDto?>
-
+    @Query("SELECT * FROM users")
+    abstract fun findCurrentUser(): Flow<List<UserDto>>
 }

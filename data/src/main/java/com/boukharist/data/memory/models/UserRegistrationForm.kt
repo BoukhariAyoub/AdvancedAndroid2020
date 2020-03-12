@@ -10,5 +10,7 @@ data class InMemoryUserRegistrationForm(
     val height: Float? = null,
     val weight: Float? = null,
     val activityTypeIndex: ActivityType? = null,
-    val goalIndex: Goal? = null
+    val goalIndex: Goal? = null,
+    val currentPage: Int? = null,
+    val hasUserSubmitted: Boolean = false
 )

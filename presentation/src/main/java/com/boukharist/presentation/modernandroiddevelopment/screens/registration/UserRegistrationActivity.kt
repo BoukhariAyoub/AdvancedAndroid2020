@@ -23,17 +23,20 @@ class UserRegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<UserRegistrationActivityBinding>(this, R.layout.user_registration_activity)
-        binding.apply {
-            lifecycleOwner = this@UserRegistrationActivity
-            this.viewModel = viewModel
+        binding.also {
+            it.viewModel = viewModel
+            it.lifecycleOwner = this@UserRegistrationActivity
         }
         setupViewPager()
         setupObservers()
     }
 
     private fun setupObservers() {
-
-        viewModel.currentViewIndex.observe(this, Observer { navigateToPosition(it) })
+        viewModel.currentViewIndex.observe(this, Observer { position ->
+            position?.let {
+                navigateToPosition(it)
+            }
+        })
     }
 
     private fun setupViewPager() {
@@ -48,8 +51,9 @@ class UserRegistrationActivity : AppCompatActivity() {
         })
     }
 
-    private fun navigateToPosition(pos: Int) {
+    fun navigateToPosition(pos: Int) {
         viewPager.currentItem = pos
+        viewModel.setCurrentItemIndex(pos)
     }
 
     override fun onBackPressed() {
@@ -58,8 +62,8 @@ class UserRegistrationActivity : AppCompatActivity() {
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed()
         } else {
-            // Otherwise, select the previous step.
-            viewPager.currentItem = viewPager.currentItem - 1
+            // Otherwise, navigate to previous step.
+            navigateToPosition(viewPager.currentItem - 1)
         }
     }
 

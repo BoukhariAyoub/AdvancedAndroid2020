@@ -1,16 +1,19 @@
 package com.boukharist.data.memory.datasource
 
+import android.util.Log
 import com.boukharist.data.memory.models.InMemoryUserRegistrationForm
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 interface InMemoryRegistrationFormDataSource {
     fun getRegistrationForm(): Flow<InMemoryUserRegistrationForm>
-    fun setRegistrationForm(newForm: InMemoryUserRegistrationForm)
+    suspend fun setRegistrationForm(newForm: InMemoryUserRegistrationForm)
 }
 
 class InMemoryRegistrationFormDataSourceImpl : InMemoryRegistrationFormDataSource {
@@ -19,12 +22,14 @@ class InMemoryRegistrationFormDataSourceImpl : InMemoryRegistrationFormDataSourc
     private var lastRegistrationForm = InMemoryUserRegistrationForm()
 
     override fun getRegistrationForm(): Flow<InMemoryUserRegistrationForm> {
-        return registrationFormChannel.asFlow()
+        return registrationFormChannel.asFlow().distinctUntilChangedBy { it }.onEach {
+            Log.i("InMemory Changed","$it")
+        }
     }
 
-    override fun setRegistrationForm(newForm: InMemoryUserRegistrationForm) {
+    override suspend fun setRegistrationForm(newForm: InMemoryUserRegistrationForm) {
         lastRegistrationForm = getUpdatedForm(newForm)
-        this.registrationFormChannel.offer(lastRegistrationForm)
+        registrationFormChannel.offer(lastRegistrationForm)
     }
 
     private fun getUpdatedForm(newForm: InMemoryUserRegistrationForm): InMemoryUserRegistrationForm {
@@ -34,7 +39,9 @@ class InMemoryRegistrationFormDataSourceImpl : InMemoryRegistrationFormDataSourc
             height = newForm.height ?: lastRegistrationForm.height,
             weight = newForm.weight ?: lastRegistrationForm.weight,
             activityTypeIndex = newForm.activityTypeIndex ?: lastRegistrationForm.activityTypeIndex,
-            goalIndex = newForm.goalIndex ?: lastRegistrationForm.goalIndex
+            goalIndex = newForm.goalIndex ?: lastRegistrationForm.goalIndex,
+            currentPage = newForm.currentPage ?: lastRegistrationForm.currentPage,
+            hasUserSubmitted = newForm.hasUserSubmitted
         )
     }
 }

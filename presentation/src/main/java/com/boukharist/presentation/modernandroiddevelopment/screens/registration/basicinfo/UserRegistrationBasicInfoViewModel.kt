@@ -2,46 +2,53 @@ package com.boukharist.presentation.modernandroiddevelopment.screens.registratio
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.boukharist.domain.UserRegistrationForm
 import com.boukharist.domain.usecase.UserRegistrationFormUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 
-class UserRegistrationBasicInfoViewModel(private val formUseCase: UserRegistrationFormUseCase,
-                                         private val dateProvider: DateProvider) : ViewModel() {
+class UserRegistrationBasicInfoViewModel(
+    private val formUseCase: UserRegistrationFormUseCase,
+    private val dateProvider: DateProvider
+) : ViewModel() {
 
     init {
         getFormInfoState()
     }
 
-    val isMale = ObservableField<Boolean>()
-    val birthDate = ObservableField<String>()
-    val height = ObservableField<String>()
-    val weight = ObservableField<String>()
+    val isMale = ObservableField<Boolean>(true)
+    val birthDate = ObservableField<String>("11/07/1990")
+    val height = ObservableField<String>("167")
+    val weight = ObservableField<String>("13")
 
     private fun getFormInfoState() {
         viewModelScope.launch {
-            formUseCase.getRegistrationForm().collect {
-                isMale.set(it.isMale)
-                birthDate.set(dateProvider.dateToString(it.birthDate))
-                height.set(it.height?.toString())
-                weight.set(it.weight?.toString())
-            }
+            formUseCase.getRegistrationForm()
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    Timber.i("InMemory : getFormInfoState ${it.isMale}")
+                    it.isMale?.let { isMale.set(it) }
+                    it.birthDate?.let { dateProvider.dateToString(it) }
+                    it.height?.let { height.set(it.toString()) }
+                    it.weight?.let { weight.set(it.toString()) }
+                }
         }
     }
 
-    fun saveInfo() {
-        val basicInfoFrom = UserRegistrationForm(
-            isMale = isMale.get(),
-            birthDate = dateProvider.stringToDate(birthDate.get()),
-            height = height.get()?.toFloatOrNull(),
-            weight = weight.get()?.toFloatOrNull()
-        )
-        Timber.i("basicInfoFrom = $basicInfoFrom")
-        formUseCase.setRegistrationForm(basicInfoFrom)
+    fun onNextClicked() {
+        viewModelScope.launch {
+            val basicInfoFrom = UserRegistrationForm(
+                isMale = isMale.get(),
+                birthDate = dateProvider.stringToDate(birthDate.get()?.takeIf { it.isNotEmpty() }),
+                height = height.get()?.toFloatOrNull(),
+                weight = weight.get()?.toFloatOrNull(),
+                currentPage = 1
+            )
+            formUseCase.setRegistrationForm(basicInfoFrom)
+        }
     }
 }
