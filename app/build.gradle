@@ -2,11 +2,10 @@
  'kotlin-android',
  'kotlin-android-extensions',
  'kotlin-kapt',
- //'de.mannodermaus.android-junit5'
-].each
-        {
-            apply plugin: it
-        }
+].each {
+    apply plugin: it
+}
+
 android {
     compileSdkVersion versions.compileSdk
 
@@ -18,17 +17,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
-            }
-        }
-
-
     }
 
     buildTypes {
@@ -80,7 +68,11 @@ android {
     }
 
     dataBinding {
-        enabled = true
+        enabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
 }
@@ -88,7 +80,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':presentation')
-    implementation project(':domain')
+    implementation project(':domains')
     implementation project(':data')
     implementation dep.kotlin_jdk
     implementation dep.appcompat
@@ -98,11 +90,6 @@ dependencies {
     implementation dep.koin_scope
     implementation dep.koin_viewmodel
     implementation dep.coroutines
-    implementation dep.lifecycle_extensions
-    implementation dep.lifecycle_livedata
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-
-    kapt dep.data_binding_compiler
 
     testImplementation test_dep.junit_jupiter_api
     testRuntimeOnly test_dep.junit_jupiter_engine

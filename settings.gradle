@@ -1,2 +1,3 @@
 include ':app', ':presentation', ':data', ':domain'
 rootProject.name='Modern Android Development'
+include ':domains'

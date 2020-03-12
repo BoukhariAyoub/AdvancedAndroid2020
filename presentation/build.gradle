@@ -1,18 +1,28 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+apply plugin: 'kotlin-kapt'
 
+android {
+    compileSdkVersion versions.compileSdk
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -21,16 +31,48 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
+    }
+
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
+    }
+
+    dataBinding {
+        enabled = true
     }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation project(':domains')
+
+    implementation dep.kotlin_jdk
+    implementation dep.appcompat
+    implementation dep.core_ktx
+    implementation dep.navigation_fragment
+    implementation dep.navigation_ui
+    implementation dep.lifecycle_extensions
+    implementation dep.lifecycle_livedata
+    implementation dep.koin
+    implementation dep.koin_viewmodel
+    implementation dep.constraintlayout
+    implementation dep.material
+    implementation dep.coroutines
+
+    kapt dep.data_binding_compiler
+
+    testImplementation test_dep.junit_jupiter_api
+    testRuntimeOnly test_dep.junit_jupiter_engine
+    testImplementation test_dep.junit_jupiter_params
+
+    androidTestImplementation test_dep.android_runner
+    androidTestImplementation test_dep.junit_jupiter_api
+    androidTestImplementation test_dep.junit_x
+    androidTestImplementation test_dep.espresso_core
+    androidTestImplementation test_dep.junit_android_core
+    androidTestRuntimeOnly test_dep.junit_android_runner
 }

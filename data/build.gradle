@@ -35,10 +35,10 @@ android {
     }
 
     sourceSets {
-        androidTest.java.srcDirs += "src/androidTest/kotlin"
-        debug.java.srcDirs += "src/debug/kotlin"
-        main.java.srcDirs += "src/main/kotlin"
-        test.java.srcDirs += "src/test/kotlin"
+        androidTest.java.srcDirs += "src/androidTest/java"
+        debug.java.srcDirs += "src/debug/java"
+        main.java.srcDirs += "src/main/java"
+        test.java.srcDirs += "src/test/java"
     }
 
     packagingOptions {
@@ -49,9 +49,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':domain')
+    implementation project(':domains')
     implementation dep.kotlin_jdk
-    implementation dep.appcompat
     implementation dep.core_ktx
     implementation dep.koin
 

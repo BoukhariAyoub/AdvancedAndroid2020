@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">presentation</string>
+    <string name="full_name_placeholder" formatted="false">Bonjour %s</string>
+    <string name="age_placeholder">Votre age : %d ans</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="validate">Validate</string>
+    <string name="birth_date_hint">BirthDate</string>
 </resources>
